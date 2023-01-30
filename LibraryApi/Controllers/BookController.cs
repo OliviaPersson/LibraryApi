@@ -6,18 +6,18 @@ using Microsoft.EntityFrameworkCore;
 namespace LibraryApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class BookController : ControllerBase
+    [Route("api")]
+    public class BooksController : ControllerBase
     {
         private readonly DBContext DBContext;
 
-        public BookController(DBContext DBContext)
+        public BooksController(DBContext DBContext)
         {
             this.DBContext = DBContext;
         }
 
-        [HttpGet(Name = "GetBooks")]
-        public async Task<ActionResult<List<BookItemDto>>> Get()
+        [HttpGet("books")]
+        public async Task<ActionResult<List<BookItemDto>>> GetAll()
         {
             var List = await DBContext.mytable.Select(
                 s => new BookItemDto
@@ -44,6 +44,34 @@ namespace LibraryApi.Controllers
             else
             {
                 return List;
+            }
+        }
+
+        [HttpGet("book/{Id}")]
+        public async Task<ActionResult<BookItemDto>> GetBookById(string Id)
+        {
+            BookItemDto User = await DBContext.mytable.Select(s => new BookItemDto
+            {
+                Id = s.Id,
+                Author = s.Author,
+                ImageLink = s.ImageLink,
+                Language = s.Language,
+                Link = s.Link,
+                Title = s.Title,
+                ReleaseDate = s.ReleaseDate,
+                Format = s.Format,
+                ISBN = s.ISBN,
+                Description = s.Description,
+                Pages = s.Pages,
+                Year = s.Year
+            }).FirstOrDefaultAsync(s => string.Equals(s.Id, Id));
+            if (User == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return User;
             }
         }
 
