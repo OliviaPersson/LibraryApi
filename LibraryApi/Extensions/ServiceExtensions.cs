@@ -1,4 +1,7 @@
-﻿namespace LibraryApi.Extensions
+﻿using LibraryApi.Helpers;
+using Microsoft.EntityFrameworkCore;
+
+namespace LibraryApi.Extensions
 {
     public static class ServiceExtensions
     {
@@ -19,6 +22,13 @@
             {
 
             });
+        }
+
+        public static void ConfigureMySqlContext(this IServiceCollection services, IConfiguration config)
+        {
+            var connectionString = config["mysqlconnection:connectionString"];
+            services.AddDbContext<AppDbContext>(o => o.UseMySql(connectionString,
+                MySqlServerVersion.LatestSupportedServerVersion));
         }
     }
 }

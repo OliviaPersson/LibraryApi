@@ -1,79 +1,32 @@
-﻿using LibraryApi.DTO;
-using LibraryApi.Helpers;
+﻿using LibraryApi.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace LibraryApi.Controllers
 {
     [ApiController]
-    [Route("api")]
+    [Route("api/[controller]")]
     public class BooksController : ControllerBase
     {
-        private readonly DBContext DBContext;
+        private readonly ILibraryService _libraryService;
 
-        public BooksController(DBContext DBContext)
+        public BooksController(ILibraryService libraryService)
         {
-            this.DBContext = DBContext;
+            _libraryService = libraryService;
         }
 
-        [HttpGet("books")]
-        public async Task<ActionResult<List<BookItemDto>>> GetAll()
+        [HttpGet]
+        public async Task<ActionResult> GetBooks()
         {
-            var List = await DBContext.mytable.Select(
-                s => new BookItemDto
-                {
-                    Id = s.Id,
-                    Author = s.Author,
-                    ImageLink = s.ImageLink,
-                    Language = s.Language,
-                    Link = s.Link,
-                    Title = s.Title,
-                    ReleaseDate = s.ReleaseDate,
-                    Format = s.Format,
-                    ISBN = s.ISBN,
-                    Description = s.Description,
-                    Pages = s.Pages,
-                    Year = s.Year,
-                }
-            ).ToListAsync();
-
-            if (List.Count < 0)
+            try
             {
-                return NotFound();
+                return Ok(await _libraryService.GetBooksAsync());
             }
-            else
+            catch (Exception ex)
             {
-                return List;
+                Console.WriteLine(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                    "Error retrieving data from the database");
             }
         }
-
-        [HttpGet("book/{Id}")]
-        public async Task<ActionResult<BookItemDto>> GetBookById(string Id)
-        {
-            BookItemDto User = await DBContext.mytable.Select(s => new BookItemDto
-            {
-                Id = s.Id,
-                Author = s.Author,
-                ImageLink = s.ImageLink,
-                Language = s.Language,
-                Link = s.Link,
-                Title = s.Title,
-                ReleaseDate = s.ReleaseDate,
-                Format = s.Format,
-                ISBN = s.ISBN,
-                Description = s.Description,
-                Pages = s.Pages,
-                Year = s.Year
-            }).FirstOrDefaultAsync(s => string.Equals(s.Id, Id));
-            if (User == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                return User;
-            }
-        }
-
     }
 }

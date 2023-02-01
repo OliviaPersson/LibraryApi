@@ -1,8 +1,6 @@
-
 using LibraryApi.Extensions;
-using LibraryApi.Helpers;
-using Microsoft.EntityFrameworkCore;
-using MySql.EntityFrameworkCore.Extensions;
+using LibraryApi.services;
+using LibraryApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,10 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIISIntegration();
 
-builder.Services.AddEntityFrameworkMySQL().AddDbContext<DBContext>(options => {
-    options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
+// Register Library Service to use it with Dependency Injection in Controllers
+builder.Services.AddScoped<ILibraryService, LibraryService>();
 
+builder.Services.ConfigureMySqlContext(builder.Configuration);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
