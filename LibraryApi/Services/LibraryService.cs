@@ -19,38 +19,19 @@ namespace LibraryApi.services
             return await _appDbContext.books.ToListAsync();
         }
 
+        public async Task<Book> UpdateBookAsync(Book book)
+        {
+            try
+            {
+                _appDbContext.Entry(book).State = EntityState.Modified;
+                await _appDbContext.SaveChangesAsync();
 
-        //public async Task<List<Book>> GetBooksAsync()
-        //{
-        //    try
-        //    {
-        //        //return await _db.books.ToListAsync();
-
-        //        var List = await _db.books.Select(
-        //            s => new Book
-        //            {
-        //                Id = s.Id,
-        //                Author = s.Author,
-        //                ImageLink = s.ImageLink,
-        //                Language = s.Language,
-        //                Link = s.Link,
-        //                Title = s.Title,
-        //                ReleaseDate = s.ReleaseDate,
-        //                Format = s.Format,
-        //                ISBN = s.ISBN,
-        //                Description = s.Description,
-        //                Pages = s.Pages,
-        //                Year = s.Year,
-        //            }
-        //        ).ToListAsync();
-
-        //        return List;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Console.WriteLine(ex.Message);
-        //        return null;
-        //    }
-        //}
+                return book;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
     }
 }

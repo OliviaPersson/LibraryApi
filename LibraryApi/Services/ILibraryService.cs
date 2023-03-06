@@ -15,7 +15,7 @@ namespace LibraryApi.Services
         Task<IEnumerable<Book>> GetBooksAsync(); // GET All Books
         //Task<Book> GetBookAsync(Guid id); // Get Single Book
         //Task<Book> AddBookAsync(Book book); // POST New Book
-        //Task<Book> UpdateBookAsync(Book book); // PUT Book
+        Task<Book> UpdateBookAsync(Book book); // PUT Book
         //Task<(bool, string)> DeleteBookAsync(Book book); // DELETE Book
     }
 }

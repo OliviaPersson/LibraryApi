@@ -17,5 +17,6 @@ namespace LibraryApi.DTO
         public string? Format { get; set; }
         public string? ISBN { get; set; }
         public string? Description { get; set; }
+        public string? Status { get; set; }
     }
 }
