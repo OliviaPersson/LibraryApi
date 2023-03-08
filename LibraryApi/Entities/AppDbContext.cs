@@ -10,6 +10,7 @@ namespace LibraryApi.Helpers
         {
         }
         public DbSet<Book>? books { get; set; }
+        public DbSet<User>? users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         { }

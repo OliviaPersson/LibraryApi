@@ -19,6 +19,18 @@ namespace LibraryApi.services
             return await _appDbContext.books.ToListAsync();
         }
 
+        public async Task<User> GetUserAsync(Guid id)
+        {
+            try
+            {
+                return await _appDbContext.users.FindAsync(id);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         public async Task<Book> UpdateBookAsync(Book book)
         {
             try

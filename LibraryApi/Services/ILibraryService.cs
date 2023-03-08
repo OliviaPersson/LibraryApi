@@ -17,5 +17,8 @@ namespace LibraryApi.Services
         //Task<Book> AddBookAsync(Book book); // POST New Book
         Task<Book> UpdateBookAsync(Book book); // PUT Book
         //Task<(bool, string)> DeleteBookAsync(Book book); // DELETE Book
+
+        // User Services
+        Task<User> GetUserAsync(Guid id); // Get Single User
     }
 }
