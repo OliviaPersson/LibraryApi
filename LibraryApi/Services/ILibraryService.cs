@@ -13,12 +13,16 @@ namespace LibraryApi.Services
 
         // Book Services
         Task<IEnumerable<Book>> GetBooksAsync(); // GET All Books
-        //Task<Book> GetBookAsync(Guid id); // Get Single Book
-        //Task<Book> AddBookAsync(Book book); // POST New Book
+        Task<Book> GetBookAsync(Guid id); // Get Single Book
+        Task<Book> AddBookAsync(Book book); // POST New Book
         Task<Book> UpdateBookAsync(Book book); // PUT Book
-        //Task<(bool, string)> DeleteBookAsync(Book book); // DELETE Book
+        Task<(bool, string)> DeleteBookAsync(Book book); // DELETE Book
 
         // User Services
         Task<User> GetUserAsync(Guid id); // Get Single User
+        Task<IEnumerable<User>> GetUsersAsync(); // GET All Users
+        Task<User> AddUserAsync(User user); // POST New User
+        Task<User> UpdateUserAsync(User user); // PUT User
+        Task<(bool, string)> DeleteUserAsync(User user); // DELETE User
     }
 }
