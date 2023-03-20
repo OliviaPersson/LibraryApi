@@ -19,10 +19,13 @@ namespace LibraryApi.Services
         Task<(bool, string)> DeleteBookAsync(Book book); // DELETE Book
 
         // User Services
-        Task<User> GetUserAsync(Guid id); // Get Single User
         Task<IEnumerable<User>> GetUsersAsync(); // GET All Users
+        Task<User> GetUserAsync(Guid id); // Get Single User
         Task<User> AddUserAsync(User user); // POST New User
         Task<User> UpdateUserAsync(User user); // PUT User
         Task<(bool, string)> DeleteUserAsync(User user); // DELETE User
+
+        // Sign In Services
+        Task<User> SignInAsync(User user); // Sign In User
     }
 }

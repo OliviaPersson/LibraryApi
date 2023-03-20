@@ -9,6 +9,7 @@ namespace LibraryApi.Helpers
         : base(options)
         {
         }
+
         public DbSet<Book>? books { get; set; }
         public DbSet<User>? users { get; set; }
 

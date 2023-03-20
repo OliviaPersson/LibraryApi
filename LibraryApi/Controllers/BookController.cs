@@ -16,7 +16,7 @@ namespace LibraryApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetBooks()
+        public async Task<IActionResult> GetBooks()
         {
             try
             {
@@ -31,7 +31,7 @@ namespace LibraryApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBooks(Guid id)
+        public async Task<IActionResult> GetBook(Guid id)
         {
             Book book = await _libraryService.GetBookAsync(id);
 

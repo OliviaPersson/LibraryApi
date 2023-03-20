@@ -20,18 +20,6 @@ namespace LibraryApi.services
             return await _appDbContext.books.ToListAsync();
         }
 
-        public async Task<User> GetUserAsync(Guid id)
-        {
-            try
-            {
-                return await _appDbContext.users.FindAsync(id);
-            }
-            catch (Exception ex)
-            {
-                return null;
-            }
-        }
-
         public async Task<Book> GetBookAsync(Guid id)
         {
             try
@@ -108,6 +96,18 @@ namespace LibraryApi.services
             }
         }
 
+        public async Task<User> GetUserAsync(Guid id)
+        {
+            try
+            {
+                return await _appDbContext.users.FindAsync(id);
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         public async Task<User> AddUserAsync(User user)
         {
             try
@@ -145,7 +145,7 @@ namespace LibraryApi.services
 
                 if (dbUser == null)
                 {
-                    return (false, "Book could not be found.");
+                    return (false, "User could not be found.");
                 }
 
                 _appDbContext.users.Remove(user);
@@ -156,6 +156,19 @@ namespace LibraryApi.services
             catch (Exception ex)
             {
                 return (false, $"An error occured. Error Message: {ex.Message}");
+            }
+        }
+
+        //Sign In Services
+        public async Task<User> SignInAsync(User user)
+        {
+            try
+            {
+                return await _appDbContext.users.FirstOrDefaultAsync(usr => usr.Email == user.Email);
+            }
+            catch (Exception ex)
+            {
+                return null;
             }
         }
     }
