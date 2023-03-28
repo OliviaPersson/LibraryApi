@@ -50,7 +50,7 @@ namespace LibraryApi.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, $"{user.Id} could not be added.");
             }
 
-            return CreatedAtAction("GetUser", new { id = user.Id }, user);
+            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
         }
 
         [HttpPut("{id}")]
