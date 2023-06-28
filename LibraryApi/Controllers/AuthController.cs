@@ -1,4 +1,5 @@
-﻿using LibraryApi.Entities.Models;
+﻿using LibraryApi.DTOs;
+using LibraryApi.Models;
 using LibraryApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,26 +9,24 @@ namespace LibraryApi.Controllers
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly ILibraryService _libraryService;
-        private readonly IJWTTokenService _jwttokenservice;
+        private readonly IAuthService _authService;
 
-        public AuthController(ILibraryService libraryService, IJWTTokenService jwttokenservice)
+        public AuthController(IAuthService authService)
         {
-            _libraryService = libraryService;
-            _jwttokenservice = jwttokenservice;
+            _authService = authService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> SignIn(User user)
+        [HttpPost("signin")]
+        public async Task<ActionResult<JWTToken>> SignIn(SignInDTO signInDTO)
         {
-            User usr = await _libraryService.SignInAsync(user);
+            var jwtToken = await _authService.Authenticate(signInDTO);
 
-            if (usr != null)
+            if (jwtToken == null)
             {
-                var jwtToken = _jwttokenservice.Authenticate(usr);
-                return StatusCode(StatusCodes.Status200OK, jwtToken);
+                return Unauthorized();
             }
-            return StatusCode(StatusCodes.Status204NoContent, $"No user found with email: {user.Email}");
+
+            return Ok(jwtToken);
         }
     }
 }

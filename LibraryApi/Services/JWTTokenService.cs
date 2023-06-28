@@ -1,4 +1,4 @@
-﻿using LibraryApi.Entities.Models;
+﻿using LibraryApi.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -6,15 +6,15 @@ using System.Text;
 
 namespace LibraryApi.Services
 {
-    public class JWTTServiceManage : IJWTTokenService
+    public class JWTTokenService : IJWTTokenService
     {
         private readonly IConfiguration _config;
-        public JWTTServiceManage(IConfiguration configuration)
+        public JWTTokenService(IConfiguration configuration)
         {
             _config = configuration;
         }
 
-        JWTTokens IJWTTokenService.Authenticate(User user)
+        public Task<JWTToken> GenerateToken(User user)
         {
             var issuer = _config["Jwt:Issuer"];
             var audience = _config["Jwt:Audience"];
@@ -47,7 +47,7 @@ namespace LibraryApi.Services
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var jwtToken = tokenHandler.WriteToken(token);
 
-            return new JWTTokens { Token = jwtToken };
+            return Task.FromResult(new JWTToken { Token = jwtToken });
         }
     }
 }

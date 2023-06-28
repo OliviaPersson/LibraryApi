@@ -1,17 +1,17 @@
-﻿using LibraryApi.Entities.Models;
+﻿using LibraryApi.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace LibraryApi.Helpers
+namespace LibraryApi.Data
 {
     public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions options)
+        public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
         {
         }
 
-        public DbSet<Book>? books { get; set; }
-        public DbSet<User>? users { get; set; }
+        public DbSet<Book>? Books { get; set; }
+        public DbSet<User>? Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         { }

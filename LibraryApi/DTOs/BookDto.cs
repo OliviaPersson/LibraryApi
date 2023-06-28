@@ -1,10 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace LibraryApi.Entities.Models
+namespace LibraryApi.DTOs
 {
-    [Table("books")]
-    public class Book
+    public class BookDto
     {
         [Key]
         public Guid? Id { get; set; }

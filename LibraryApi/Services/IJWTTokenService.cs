@@ -1,9 +1,9 @@
-﻿using LibraryApi.Entities.Models;
+﻿using LibraryApi.Models;
 
 namespace LibraryApi.Services
 {
     public interface IJWTTokenService
     {
-        public JWTTokens Authenticate(User user);
+        Task<JWTToken> GenerateToken(User user);
     }
 }

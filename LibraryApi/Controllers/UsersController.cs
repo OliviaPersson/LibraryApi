@@ -1,4 +1,5 @@
-﻿using LibraryApi.Entities.Models;
+﻿using LibraryApi.DTOs;
+using LibraryApi.Models;
 using LibraryApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,65 +9,53 @@ namespace LibraryApi.Controllers
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly ILibraryService _libraryService;
+        private readonly IUserService _userService;
+        private readonly IAuthService _authService;
+        private readonly IJWTTokenService _jwtTokenService;
 
-        public UsersController(ILibraryService libraryService)
+        public UsersController(IUserService userService, IAuthService authService, IJWTTokenService jwtTokenService)
         {
-            _libraryService = libraryService;
+            _userService = userService;
+            _authService = authService;
+            _jwtTokenService = jwtTokenService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
         {
-            var users = await _libraryService.GetUsersAsync();
-            if (users == null)
-            {
-                return StatusCode(StatusCodes.Status204NoContent, "No users in database.");
-            }
-
-            return StatusCode(StatusCodes.Status200OK, users);
+            var users = await _userService.GetUsersAsync();
+            return Ok(users);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUser(Guid id)
+        public async Task<ActionResult<UserDto>> GetUser(Guid id)
         {
-            User user = await _libraryService.GetUserAsync(id);
+            var user = await _userService.GetUserAsync(id);
 
             if (user == null)
             {
-                return StatusCode(StatusCodes.Status204NoContent, $"No user found for id: {id}");
+                return NotFound();
             }
 
-            return StatusCode(StatusCodes.Status200OK, user);
+            return Ok(user);
         }
 
         [HttpPost]
-        public async Task<ActionResult<User>> AddUser(User user)
+        public async Task<IActionResult> AddUser(UserDto userDto)
         {
-            var dbUser = await _libraryService.AddUserAsync(user);
-
-            if (dbUser == null)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"{user.Id} could not be added.");
-            }
-
-            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
+            await _userService.AddUserAsync(userDto);
+            return CreatedAtAction(nameof(GetUser), new { id = userDto.Id }, userDto);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(Guid id, User user)
+        public async Task<IActionResult> UpdateUser(Guid id, UserDto userDto)
         {
-            if (id != user.Id)
+            if (id != userDto.Id)
             {
                 return BadRequest();
             }
 
-            User dbUser = await _libraryService.UpdateUserAsync(user);
-
-            if (dbUser == null)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"{user.Id} could not be updated");
-            }
+            await _userService.UpdateUserAsync(userDto);
 
             return NoContent();
         }
@@ -74,15 +63,9 @@ namespace LibraryApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
-            var user = await _libraryService.GetUserAsync(id);
-            (bool status, string message) = await _libraryService.DeleteUserAsync(user);
+            await _userService.DeleteUserAsync(id);
 
-            if (status == false)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, message);
-            }
-
-            return StatusCode(StatusCodes.Status200OK, user);
+            return NoContent();
         }
     }
 }

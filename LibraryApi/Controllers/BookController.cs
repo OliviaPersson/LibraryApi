@@ -1,76 +1,58 @@
-﻿using LibraryApi.Entities.Models;
+﻿using LibraryApi.DTOs;
+using LibraryApi.Models;
 using LibraryApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryApi.Controllers
 {
-    [ApiController, Authorize]
-    [Route("api/[controller]")]
-    public class BooksController : ControllerBase
+    [ApiController]
+    [Route("api/books")]
+    public class BookController : ControllerBase
     {
-        private readonly ILibraryService _libraryService;
+        private readonly IBookService _bookService;
 
-        public BooksController(ILibraryService libraryService)
+        public BookController(IBookService bookService)
         {
-            _libraryService = libraryService;
+            _bookService = bookService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBooks()
+        public async Task<ActionResult<IEnumerable<BookDto>>> GetBooks()
         {
-            try
-            {
-                return Ok(await _libraryService.GetBooksAsync());
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                    "Error retrieving data from the database");
-            }
+            var books = await _bookService.GetBooksAsync();
+            return Ok(books);
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetBook(Guid id)
+        public async Task<ActionResult<BookDto>> GetBook(Guid id)
         {
-            Book book = await _libraryService.GetBookAsync(id);
+            var book = await _bookService.GetBookAsync(id);
 
             if (book == null)
             {
-                return StatusCode(StatusCodes.Status204NoContent, $"No book found for id: {id}");
+                return NotFound();
             }
 
-            return StatusCode(StatusCodes.Status200OK, book);
+            return Ok(book);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Book>> AddBook(Book book)
+        public async Task<IActionResult> AddBook(BookDto bookDto)
         {
-            var dbBook = await _libraryService.AddBookAsync(book);
-
-            if (dbBook == null)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"{book.Title} could not be added.");
-            }
-
-            return CreatedAtAction("GetBook", new { id = book.Id }, book);
+            await _bookService.AddBookAsync(bookDto);
+            return CreatedAtAction(nameof(GetBook), new { id = bookDto.Id }, bookDto);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBook(Guid id, Book book)
+        public async Task<IActionResult> UpdateBook(Guid id, BookDto bookDto)
         {
-            if (id != book.Id)
+            if (id != bookDto.Id)
             {
                 return BadRequest();
             }
 
-            Book dbBook = await _libraryService.UpdateBookAsync(book);
-
-            if (dbBook == null)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, $"{book.Title} could not be updated");
-            }
+            await _bookService.UpdateBookAsync(bookDto);
 
             return NoContent();
         }
@@ -78,15 +60,9 @@ namespace LibraryApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteBook(Guid id)
         {
-            var book = await _libraryService.GetBookAsync(id);
-            (bool status, string message) = await _libraryService.DeleteBookAsync(book);
+            await _bookService.DeleteBookAsync(id);
 
-            if (status == false)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, message);
-            }
-
-            return StatusCode(StatusCodes.Status200OK, book);
+            return NoContent();
         }
     }
 }

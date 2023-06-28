@@ -1,5 +1,6 @@
+using Google.Apis.Books.v1.Data;
 using LibraryApi.Extensions;
-using LibraryApi.services;
+using LibraryApi.Repositories;
 using LibraryApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -11,12 +12,16 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIISIntegration();
 
-// Register Library Service to use it with Dependency Injection in Controllers
-builder.Services.AddScoped<ILibraryService, LibraryService>();
-builder.Services.AddScoped<IJWTTokenService, JWTTServiceManage>();
+// Register services to use it with Dependency Injection in Controllers
+builder.Services.AddScoped<IBookRepository, BookRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<JWTTokenService>();
 
 builder.Services.ConfigureMySqlContext(builder.Configuration);
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
