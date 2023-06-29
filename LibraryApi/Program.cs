@@ -1,9 +1,9 @@
 using LibraryApi.Extensions;
 using LibraryApi.Repositories;
 using LibraryApi.Services.Auth;
-using LibraryApi.Services.Book;
-using LibraryApi.Services.JWTToken;
-using LibraryApi.Services.User;
+using LibraryApi.Services.Books;
+using LibraryApi.Services.JWTTokens;
+using LibraryApi.Services.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
