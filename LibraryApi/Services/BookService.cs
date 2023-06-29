@@ -13,25 +13,25 @@ namespace LibraryApi.Services
             _bookRepository = bookRepository;
         }
 
-        public async Task<IEnumerable<BookDto>> GetBooksAsync()
+        public async Task<IEnumerable<BookDTO>> GetBooksAsync()
         {
-            IEnumerable<BookDto> books = (await _bookRepository.GetBooksAsync()).Select(book => MapBookToDto(book)).ToList();
+            IEnumerable<BookDTO> books = (await _bookRepository.GetBooksAsync()).Select(book => MapBookToDto(book)).ToList();
             return books;
         }
 
-        public async Task<BookDto> GetBookAsync(Guid id)
+        public async Task<BookDTO> GetBookAsync(Guid id)
         {
             var book = await _bookRepository.GetBookAsync(id);
             return MapBookToDto(book);
         }
 
-        public async Task AddBookAsync(BookDto bookDto)
+        public async Task AddBookAsync(BookDTO bookDto)
         {
             var book = MapDtoToBook(bookDto);
             await _bookRepository.AddBookAsync(book);
         }
 
-        public async Task UpdateBookAsync(BookDto bookDto)
+        public async Task UpdateBookAsync(BookDTO bookDto)
         {
             var book = MapDtoToBook(bookDto);
             await _bookRepository.UpdateBookAsync(book);
@@ -46,9 +46,9 @@ namespace LibraryApi.Services
             }
         }
 
-        public BookDto MapBookToDto(Book book)
+        public BookDTO MapBookToDto(Book book)
         {
-            return new BookDto
+            return new BookDTO
             {
                 Id = book.Id,
                 Author = book.Author,
@@ -66,7 +66,7 @@ namespace LibraryApi.Services
             };
         }
 
-        public Book MapDtoToBook(BookDto bookDto)
+        public Book MapDtoToBook(BookDTO bookDto)
         {
             return new Book
             {

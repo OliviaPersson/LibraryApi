@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LibraryApi.DTOs
 {
-    public class UserDto
+    public class UserDTO
     {
         [Key]
         public Guid? Id { get; set; }

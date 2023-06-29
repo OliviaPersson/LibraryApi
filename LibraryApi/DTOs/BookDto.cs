@@ -2,7 +2,7 @@
 
 namespace LibraryApi.DTOs
 {
-    public class BookDto
+    public class BookDTO
     {
         [Key]
         public Guid? Id { get; set; }

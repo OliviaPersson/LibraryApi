@@ -13,13 +13,13 @@ namespace LibraryApi.Services
             _userRepository = userRepository;
         }
 
-        public async Task<IEnumerable<UserDto>> GetUsersAsync()
+        public async Task<IEnumerable<UserDTO>> GetUsersAsync()
         {
-            IEnumerable<UserDto> users = (await _userRepository.GetUsersAsync()).Select(user => MapUserToDto(user)).ToList();
+            IEnumerable<UserDTO> users = (await _userRepository.GetUsersAsync()).Select(user => MapUserToDto(user)).ToList();
             return users;
         }
 
-        public async Task<UserDto> GetUserAsync(Guid id)
+        public async Task<UserDTO> GetUserAsync(Guid id)
         {
             var user = await _userRepository.GetUserAsync(id);
             return MapUserToDto(user);
@@ -38,7 +38,7 @@ namespace LibraryApi.Services
             return await _userRepository.CreateUserAsync(user);
         }
 
-        public async Task UpdateUserAsync(UserDto userDto)
+        public async Task UpdateUserAsync(UserDTO userDto)
         {
             var user = MapDtoToUser(userDto);
             await _userRepository.UpdateUserAsync(user);
@@ -53,9 +53,9 @@ namespace LibraryApi.Services
             }
         }
 
-        public UserDto MapUserToDto(User user)
+        public UserDTO MapUserToDto(User user)
         {
-            return new UserDto
+            return new UserDTO
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
@@ -66,7 +66,7 @@ namespace LibraryApi.Services
             };
         }
 
-        public User MapDtoToUser(UserDto userDto)
+        public User MapDtoToUser(UserDTO userDto)
         {
             return new User
             {

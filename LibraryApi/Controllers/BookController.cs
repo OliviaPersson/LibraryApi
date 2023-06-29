@@ -18,14 +18,14 @@ namespace LibraryApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BookDto>>> GetBooks()
+        public async Task<ActionResult<IEnumerable<BookDTO>>> GetBooks()
         {
             var books = await _bookService.GetBooksAsync();
             return Ok(books);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<BookDto>> GetBook(Guid id)
+        public async Task<ActionResult<BookDTO>> GetBook(Guid id)
         {
             var book = await _bookService.GetBookAsync(id);
 
@@ -38,14 +38,14 @@ namespace LibraryApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddBook(BookDto bookDto)
+        public async Task<IActionResult> AddBook(BookDTO bookDto)
         {
             await _bookService.AddBookAsync(bookDto);
             return CreatedAtAction(nameof(GetBook), new { id = bookDto.Id }, bookDto);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBook(Guid id, BookDto bookDto)
+        public async Task<IActionResult> UpdateBook(Guid id, BookDTO bookDto)
         {
             if (id != bookDto.Id)
             {

@@ -20,14 +20,14 @@ namespace LibraryApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
             var users = await _userService.GetUsersAsync();
             return Ok(users);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserDto>> GetUser(Guid id)
+        public async Task<ActionResult<UserDTO>> GetUser(Guid id)
         {
             var user = await _userService.GetUserAsync(id);
 
@@ -47,7 +47,7 @@ namespace LibraryApi.Controllers
         //}
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(Guid id, UserDto userDto)
+        public async Task<IActionResult> UpdateUser(Guid id, UserDTO userDto)
         {
             if (id != userDto.Id)
             {

@@ -4,10 +4,10 @@ namespace LibraryApi.Services
 {
     public interface IBookService
     {
-        Task<IEnumerable<BookDto>> GetBooksAsync();
-        Task<BookDto> GetBookAsync(Guid id);
-        Task AddBookAsync(BookDto bookDto);
-        Task UpdateBookAsync(BookDto bookDto);
+        Task<IEnumerable<BookDTO>> GetBooksAsync();
+        Task<BookDTO> GetBookAsync(Guid id);
+        Task AddBookAsync(BookDTO bookDto);
+        Task UpdateBookAsync(BookDTO bookDto);
         Task DeleteBookAsync(Guid id);
     }
 }

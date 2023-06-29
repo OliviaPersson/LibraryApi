@@ -5,10 +5,10 @@ namespace LibraryApi.Services
 {
     public interface IUserService
     {
-        Task<IEnumerable<UserDto>> GetUsersAsync();
-        Task<UserDto> GetUserAsync(Guid id);
+        Task<IEnumerable<UserDTO>> GetUsersAsync();
+        Task<UserDTO> GetUserAsync(Guid id);
         Task<User> SignUpAsync(SignUpDTO signUpDTO);
-        Task UpdateUserAsync(UserDto userDto);
+        Task UpdateUserAsync(UserDTO userDto);
         Task DeleteUserAsync(Guid id);
     }
 }
