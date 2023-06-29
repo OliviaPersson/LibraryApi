@@ -1,6 +1,6 @@
 ﻿using LibraryApi.Models;
 
-namespace LibraryApi.Services
+namespace LibraryApi.Services.JWTTokens
 {
     public interface IJWTTokenService
     {

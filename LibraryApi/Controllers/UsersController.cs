@@ -1,5 +1,7 @@
 ﻿using LibraryApi.DTOs;
-using LibraryApi.Services;
+using LibraryApi.Services.Auth;
+using LibraryApi.Services.JWTTokens;
+using LibraryApi.Services.Users;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryApi.Controllers

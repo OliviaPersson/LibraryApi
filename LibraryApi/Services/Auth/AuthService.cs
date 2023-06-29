@@ -1,8 +1,9 @@
 using LibraryApi.DTOs;
 using LibraryApi.Models;
 using LibraryApi.Repositories;
+using LibraryApi.Services.JWTTokens;
 
-namespace LibraryApi.Services
+namespace LibraryApi.Services.Auth
 {
     public class AuthService : IAuthService
     {

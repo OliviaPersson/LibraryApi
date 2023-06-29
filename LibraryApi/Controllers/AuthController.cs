@@ -1,6 +1,7 @@
 ﻿using LibraryApi.DTOs;
 using LibraryApi.Models;
-using LibraryApi.Services;
+using LibraryApi.Services.Auth;
+using LibraryApi.Services.Users;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryApi.Controllers

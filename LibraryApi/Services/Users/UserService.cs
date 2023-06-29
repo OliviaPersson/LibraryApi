@@ -2,7 +2,7 @@ using LibraryApi.DTOs;
 using LibraryApi.Models;
 using LibraryApi.Repositories;
 
-namespace LibraryApi.Services
+namespace LibraryApi.Services.Users
 {
     public class UserService : IUserService
     {

@@ -1,7 +1,7 @@
 using LibraryApi.DTOs;
 using LibraryApi.Models;
 
-namespace LibraryApi.Services
+namespace LibraryApi.Services.Users
 {
     public interface IUserService
     {
