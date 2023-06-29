@@ -1,4 +1,5 @@
 using LibraryApi.DTOs;
+using LibraryApi.Models;
 
 namespace LibraryApi.Services
 {
@@ -6,7 +7,7 @@ namespace LibraryApi.Services
     {
         Task<IEnumerable<UserDto>> GetUsersAsync();
         Task<UserDto> GetUserAsync(Guid id);
-        Task AddUserAsync(UserDto userDto);
+        Task<User> SignUpAsync(SignUpDTO signUpDTO);
         Task UpdateUserAsync(UserDto userDto);
         Task DeleteUserAsync(Guid id);
     }

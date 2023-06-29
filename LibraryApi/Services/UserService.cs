@@ -24,11 +24,18 @@ namespace LibraryApi.Services
             var user = await _userRepository.GetUserAsync(id);
             return MapUserToDto(user);
         }
-
-        public async Task AddUserAsync(UserDto userDto)
+        public async Task<User> SignUpAsync(SignUpDTO signUpDTO)
         {
-            var user = MapDtoToUser(userDto);
-            await _userRepository.AddUserAsync(user);
+            var user = new User
+            {
+                FirstName = signUpDTO.FirstName,
+                LastName = signUpDTO.LastName,
+                UserName = signUpDTO.UserName,
+                Email = signUpDTO.Email,
+                Password = signUpDTO.Password,
+            };
+
+            return await _userRepository.CreateUserAsync(user);
         }
 
         public async Task UpdateUserAsync(UserDto userDto)
@@ -55,7 +62,7 @@ namespace LibraryApi.Services
                 LastName = user.LastName,
                 UserName = user.UserName,
                 Email = user.Email,
-                //Password = user.Password
+                Password = user.Password
             };
         }
 
@@ -68,7 +75,7 @@ namespace LibraryApi.Services
                 LastName = userDto.LastName,
                 UserName = userDto.UserName,
                 Email = userDto.Email,
-                //Password = userDto.Password
+                Password = userDto.Password
             };
         }
     }

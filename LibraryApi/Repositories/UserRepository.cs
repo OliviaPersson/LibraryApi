@@ -27,10 +27,11 @@ namespace LibraryApi.Repositories
             return await _appDbContext.Users.FirstOrDefaultAsync(user => user.Email == email);
         }
 
-        public async Task AddUserAsync(User user)
+        public async Task<User> CreateUserAsync(User user)
         {
             await _appDbContext.Users.AddAsync(user);
             await _appDbContext.SaveChangesAsync();
+            return user;
         }
 
         public async Task UpdateUserAsync(User user)
@@ -43,11 +44,6 @@ namespace LibraryApi.Repositories
         {
             _appDbContext.Users.Remove(user);
             await _appDbContext.SaveChangesAsync();
-        }
-
-        public User GetUserByEmail(string email)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using LibraryApi.DTOs;
-using LibraryApi.Models;
 using LibraryApi.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,12 +39,12 @@ namespace LibraryApi.Controllers
             return Ok(user);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddUser(UserDto userDto)
-        {
-            await _userService.AddUserAsync(userDto);
-            return CreatedAtAction(nameof(GetUser), new { id = userDto.Id }, userDto);
-        }
+        //[HttpPost]
+        //public async Task<IActionResult> AddUser(UserDto userDto)
+        //{
+        //    await _userService.AddUserAsync(userDto);
+        //    return CreatedAtAction(nameof(GetUser), new { id = userDto.Id }, userDto);
+        //}
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(Guid id, UserDto userDto)

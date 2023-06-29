@@ -6,14 +6,16 @@ using Microsoft.AspNetCore.Mvc;
 namespace LibraryApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/auth")]
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
+        private readonly IUserService _userService;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, IUserService userService)
         {
             _authService = authService;
+            _userService = userService;
         }
 
         [HttpPost("signin")]
@@ -27,6 +29,19 @@ namespace LibraryApi.Controllers
             }
 
             return Ok(jwtToken);
+        }
+
+        [HttpPost("signup")]
+        public async Task<IActionResult> SignUp(SignUpDTO signUpDTO)
+        {
+            var user = await _userService.SignUpAsync(signUpDTO);
+
+            if (user == null)
+            {
+                return BadRequest("Failed to sign up.");
+            }
+
+            return Ok("Sign up successful.");
         }
     }
 }

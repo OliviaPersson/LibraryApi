@@ -7,9 +7,9 @@ namespace LibraryApi.Services
     public class AuthService : IAuthService
     {
         private readonly IUserRepository _userRepository;
-        private readonly JWTTokenService _jwtTokenService;
+        private readonly IJWTTokenService _jwtTokenService;
 
-        public AuthService(IUserRepository userRepository, JWTTokenService jwtTokenService)
+        public AuthService(IUserRepository userRepository, IJWTTokenService jwtTokenService)
         {
             _userRepository = userRepository;
             _jwtTokenService = jwtTokenService;

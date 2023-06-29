@@ -7,9 +7,8 @@ namespace LibraryApi.Repositories
         Task<IEnumerable<User>> GetUsersAsync();
         Task<User> GetUserAsync(Guid id);
         Task<User> GetUserByEmailAsync(string email);
-        Task AddUserAsync(User user);
+        Task<User> CreateUserAsync(User user);
         Task UpdateUserAsync(User user);
         Task DeleteUserAsync(User user);
-        User GetUserByEmail(string email);
     }
 }

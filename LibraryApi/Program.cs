@@ -1,4 +1,3 @@
-using Google.Apis.Books.v1.Data;
 using LibraryApi.Extensions;
 using LibraryApi.Repositories;
 using LibraryApi.Services;
@@ -16,8 +15,10 @@ builder.Services.ConfigureIISIntegration();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddScoped<JWTTokenService>();
+builder.Services.AddScoped<IJWTTokenService, JWTTokenService>();
+//builder.Services.AddScoped<JWTTokenService>();
 
 builder.Services.ConfigureMySqlContext(builder.Configuration);
 builder.Services.AddControllers();
